@@ -161,16 +161,22 @@ endif(BUILD_RTOSC_EXAMPLES)
 
 # Testing code
 enable_testing()
+
+# All the binaries used by tests in rtosc.
+add_custom_target(rtosc_buildtests)
+
 macro(maketest fname)
     add_executable(${fname} test/${fname}.c)
     add_test(${fname} ${fname})
     target_link_libraries(${fname} rtosc)
+    add_dependencies(rtosc_buildtests ${fname})
 endmacro(maketest)
 
 macro(maketestcpp fname)
     add_executable(${fname} test/${fname}.cpp)
     add_test(${fname} ${fname})
     target_link_libraries(${fname} rtosc-cpp rtosc)
+    add_dependencies(rtosc_buildtests ${fname})
 endmacro(maketestcpp)
 
 maketest(rtosc-time)
